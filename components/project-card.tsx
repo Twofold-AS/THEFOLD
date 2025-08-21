@@ -12,8 +12,6 @@ type Props = {
   tags?: string[]
   href?: string
   priority?: boolean
-  gradientFrom?: string
-  gradientTo?: string
   imageContainerClassName?: string
   containerClassName?: string
   revealDelay?: number
@@ -27,8 +25,6 @@ export default function ProjectCard({
   tags = ["Design", "Web"],
   href = "#",
   priority = false,
-  gradientFrom = "#0f172a",
-  gradientTo = "#6d28d9",
   imageContainerClassName,
   containerClassName,
   revealDelay = 0,
@@ -38,9 +34,6 @@ export default function ProjectCard({
       <RevealOnView
         delay={revealDelay}
         className="rounded-3xl border border-white/10 p-1 shadow-[0_10px_60px_-10px_rgba(0,0,0,0.6)] lg:h-full"
-        style={{
-          backgroundImage: `linear-gradient(135deg, ${gradientFrom}, ${gradientTo})`,
-        }}
       >
         <div className="relative overflow-hidden rounded-[1.35rem] bg-black lg:h-full">
           {/* Image */}
@@ -74,8 +67,8 @@ export default function ProjectCard({
           <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <h3 className="text-lg font-semibold sm:text-xl">{title}</h3>
-                <p className="text-sm text-white/70">{subtitle}</p>
+                <h3 className="text-4xl font-semibold sm:text-4xl">{title}</h3>
+                <p className="text-2xl text-white/70">{subtitle}</p>
               </div>
               <Link
                 href={href}

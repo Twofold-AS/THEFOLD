@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import DotGridShader from "@/components/DotGridShader"
+import { StarsBackground } from "@/components/animate-ui/backgrounds/stars";
 
 import ProjectCard from "@/components/project-card"
 import AnimatedHeading from "@/components/animated-heading"
@@ -19,8 +20,6 @@ export default function Page() {
       tags: ["AI", "Booking", "UI/UX"],
       href: "#project-1",
       priority: true,
-      gradientFrom: "#2C2C2C",
-      gradientTo: "#ED2A24",
     },
     {
       title: "Nimbus — SaaS analytics",
@@ -29,8 +28,6 @@ export default function Page() {
       tags: ["SaaS", "Design System", "Web"],
       href: "#project-2",
       priority: false,
-      gradientFrom: "#111827",
-      gradientTo: "#2563eb",
     },
     {
       title: "Arcade — E‑commerce for streetwear",
@@ -39,8 +36,6 @@ export default function Page() {
       tags: ["Commerce", "Mobile", "Brand"],
       href: "#project-3",
       priority: false,
-      gradientFrom: "#0b132b",
-      gradientTo: "#5bc0be",
     },
     {
       title: "CareConnect — Patient portal",
@@ -49,8 +44,6 @@ export default function Page() {
       tags: ["A11y", "Web App", "Health"],
       href: "#project-4",
       priority: false,
-      gradientFrom: "#0f172a",
-      gradientTo: "#10b981",
     },
     {
       title: "Aurora — Creative portfolio",
@@ -59,8 +52,6 @@ export default function Page() {
       tags: ["Portfolio", "Animation", "UI/UX"],
       href: "#project-5",
       priority: false,
-      gradientFrom: "#1f2937",
-      gradientTo: "#8b5cf6",
     },
     {
       title: "Hydra — AI assistant",
@@ -69,8 +60,6 @@ export default function Page() {
       tags: ["AI", "SaaS", "Product"],
       href: "#project-6",
       priority: false,
-      gradientFrom: "#0b132b",
-      gradientTo: "#10b981",
     },
   ]
 
@@ -89,7 +78,7 @@ export default function Page() {
             >
               {/* Texture background */}
               <div className="pointer-events-none absolute inset-0 opacity-5 mix-blend-soft-light">
-                <DotGridShader />
+                <StarsBackground className="absolute inset-0 flex items-center justify-center rounded-xl" />
               </div>
               <div>
                 {/* Wordmark */}
@@ -159,8 +148,6 @@ export default function Page() {
                 tags={p.tags}
                 href={p.href}
                 priority={p.priority}
-                gradientFrom={p.gradientFrom}
-                gradientTo={p.gradientTo}
                 imageContainerClassName="lg:h-full"
                 containerClassName="lg:h-[calc(100svh-2rem)]"
                 revealDelay={idx * 0.06}
