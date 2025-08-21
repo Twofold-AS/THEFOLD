@@ -7,19 +7,20 @@ import DotGridShader from "@/components/DotGridShader"
 import ProjectCard from "@/components/project-card"
 import AnimatedHeading from "@/components/animated-heading"
 import RevealOnView from "@/components/reveal-on-view"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import Logo from "@/components/ui/logo/Logo"
 
 export default function Page() {
   const projects = [
     {
-      title: "Walletly — Multi‑account mobile banking",
-      subtitle: "End‑to‑end product design",
-      imageSrc: "/images/project-1.webp",
-      tags: ["Mobile", "Fintech", "UI/UX"],
+      title: "The total solution for Yamaha",
+      subtitle: "AI-powered booking solution",
+      imageSrc: "/images/yamaha.png",
+      tags: ["AI", "Booking", "UI/UX"],
       href: "#project-1",
       priority: true,
-      gradientFrom: "#0f172a",
-      gradientTo: "#6d28d9",
+      gradientFrom: "#2C2C2C",
+      gradientTo: "#ED2A24",
     },
     {
       title: "Nimbus — SaaS analytics",
@@ -108,15 +109,24 @@ export default function Page() {
 
                 {/* CTAs */}
                 <div className="mt-6 flex flex-wrap items-center gap-3">
-                  <Button asChild size="lg" className="rounded-full">
+                {/* Pop-up */}
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button size="lg" className="rounded-full cursor-pointer">Let's talk<ArrowRight className="ml-2 h-4 w-4" /></Button>
+                  </DialogTrigger>
+                  <DialogContent className="bg-white">
+                    <DialogHeader>
+                      <DialogTitle>Dialog Title</DialogTitle>
+                      <DialogDescription>
+                        This is a dialog description.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <p>Dialog content goes here.</p>
+                  </DialogContent>
+                </Dialog>
+                    <Button asChild size="lg" variant="ghost" className="rounded-full">
                     <Link href="mailto:brandon@portfolio.dev">
-                      Talk with us
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                  </Button>
-                    <Button asChild size="lg" className="rounded-full">
-                    <Link href="mailto:brandon@portfolio.dev">
-                      Prosjects
+                      Support
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
                   </Button>
