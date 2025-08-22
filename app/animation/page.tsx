@@ -2,7 +2,8 @@
 
 import React, { useRef, useEffect, useState } from 'react'
 import Link from 'next/link'
-import { TWOFOLD_LOGO_PATH, TWOFOLD_LOGO_VIEWBOX } from '@/components/ui/logo/LogoPaths'
+import { TWOFOLD_LOGO_PATH, TWOFOLD_LOGO_VIEWBOX } from '@/components/ui/logo/LogoPaths' 
+// NB: TWOFOLD_LOGO_PATH må være string[] (array). Hvis ikke: lag TWOFOLD_LOGO_PATHS og iterér over den.
 
 export default function Component() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -10,13 +11,18 @@ export default function Component() {
   const isTouchingRef = useRef(false)
   const [isMobile, setIsMobile] = useState(false)
 
+  // 🆕 Disse skal være på toppnivå (ikke inni useEffect):
+  const simulateRef = useRef(true)              // true = vi simulerer "mus i sirkel" (loader)
+  const simStartRef = useRef(0)                 // starttid for simulering
+  const logoDimsRef = useRef({ width: 0, height: 0 })
+  const centerRef = useRef({ x: 0, y: 0 })
+
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    // Ikke-null aliaser
     const canvasEl = canvas as HTMLCanvasElement
     const ctx2d = ctx as CanvasRenderingContext2D
 
@@ -57,11 +63,15 @@ export default function Component() {
       )
       ctx2d.scale(scale, scale)
 
-      // Tegn ALLE path-ene
+      // Tegn ALLE path-ene (forutsetter at TWOFOLD_LOGO_PATH er string[])
       for (const d of TWOFOLD_LOGO_PATH) {
         const p = new Path2D(d)
         ctx2d.fill(p)
       }
+
+      // 🆕 Husk senter + dimensjoner til simulert bane
+      logoDimsRef.current = { width: logoWidth, height: logoHeight }
+      centerRef.current = { x: canvasEl.width / 2, y: canvasEl.height / 2 }
 
       ctx2d.restore()
 
@@ -86,8 +96,8 @@ export default function Component() {
             baseY: y,
             size: Math.random() * 1 + 0.5,
             color: 'white',
-            scatteredColor: '#00DCFF', // velg valgfri “hover”-farge
-            isAWS: false,              // beholder feltet for kompatibilitet
+            scatteredColor: '#00DCFF',
+            isAWS: false,
             life: Math.random() * 100 + 50,
           } as Particle
         }
@@ -112,16 +122,34 @@ export default function Component() {
       ctx2d.fillStyle = 'black'
       ctx2d.fillRect(0, 0, canvasEl.width, canvasEl.height)
 
-      const { x: mouseX, y: mouseY } = mousePositionRef.current
+      // 🆕 Simulert "mus i sirkel" når simulateRef.current === true
+      const speedRps = 0.6 // runder per sekund
+      let pointerX = mousePositionRef.current.x
+      let pointerY = mousePositionRef.current.y
+
+      if (simulateRef.current) {
+        const t = (performance.now() - simStartRef.current) / 1000
+        const angle = t * 2 * Math.PI * speedRps
+        const baseR = Math.max(logoDimsRef.current.width, logoDimsRef.current.height) / 2 + 60
+        // valgfri, liten puls:
+        // const radiusJitter = Math.sin(t * 2 * Math.PI * 0.5) * 8
+        // const R = baseR + radiusJitter
+        const R = baseR
+        pointerX = centerRef.current.x + Math.cos(angle) * R
+        pointerY = centerRef.current.y + Math.sin(angle) * R
+      }
+
       const maxDistance = 240
+      // aktiv påvirkning: simulert eller faktisk interaksjon
+      const active = simulateRef.current || isTouchingRef.current || !('ontouchstart' in window)
 
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i]
-        const dx = mouseX - p.x
-        const dy = mouseY - p.y
-        const distance = Math.sqrt(dx * dx + dy * dy)
+        const dx = pointerX - p.x
+        const dy = pointerY - p.y
+        const distance = Math.hypot(dx, dy)
 
-        if (distance < maxDistance && (isTouchingRef.current || !('ontouchstart' in window))) {
+        if (distance < maxDistance && active) {
           const force = (maxDistance - distance) / maxDistance
           const angle = Math.atan2(dy, dx)
           const moveX = Math.cos(angle) * force * 60
@@ -149,6 +177,7 @@ export default function Component() {
         }
       }
 
+      // topp opp antall
       const baseParticleCount = 7000
       const targetParticleCount = Math.floor(
         baseParticleCount * Math.sqrt((canvasEl.width * canvasEl.height) / (1920 * 1080))
@@ -162,6 +191,7 @@ export default function Component() {
     }
 
     const scale = createTextImage()
+    simStartRef.current = performance.now() // 🆕 start klokke for "spinner"
     createInitialParticles(scale)
     animate(scale)
 
@@ -201,6 +231,12 @@ export default function Component() {
       cancelAnimationFrame(animationFrameId)
     }
   }, [isMobile])
+
+  // 🆕 Enkel demo: slå av simuleringen etter 2.5s (eller styr dette fra parent via prop)
+  useEffect(() => {
+    const id = setTimeout(() => { simulateRef.current = false }, 2500)
+    return () => clearTimeout(id)
+  }, [])
 
   return (
     <div className="relative w-full h-dvh flex flex-col items-center justify-center bg-black">

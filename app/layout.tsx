@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import LoaderOverlay from '@/components/LoaderOverlay'
 
 export const metadata: Metadata = {
   title: 'THEFOLD',
@@ -28,7 +29,11 @@ export default function RootLayout({
 html { font-family: var(--font-sans); }
         `}</style>
       </head>
-      <body>{children}</body>
+      <body>
+        {/* Global loader overlay */}
+        <LoaderOverlay pattern="scan" minimumMs={2500} fadeMs={400} brandColor="white" speedRps={0.6} blockInteractions={true}/>
+        {children}
+        </body>
     </html>
   )
 }
