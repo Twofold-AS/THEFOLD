@@ -122,6 +122,5 @@
   }
 }
 
-html, body { height: 100%; }
-html { scrollbar-gutter: stable both-edges; }
+html, body { height: 100%; background: #000; } /* så “under” baren er også svart */
 

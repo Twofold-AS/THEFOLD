@@ -16,12 +16,12 @@ type Props = {
 }
 
 export default function LoaderOverlay({
-  pattern = 'figure8',
+  pattern = 'bursts',
   minimumMs = 900,
   fadeMs = 400,
   brandColor = '#00DCFF',
   speedRps = 0.6,
-  blockInteractions = false, // <- default: ikke blokkér
+  blockInteractions = true, // <- default: ikke blokkér
 }: Props) {
   const pathname = usePathname()
   const [visible, setVisible] = useState(true)
@@ -77,7 +77,7 @@ export default function LoaderOverlay({
   return (
     <div
       className={clsx(
-        'fixed inset-0 z-[100] transition-opacity bg-black h-screen', // ⬅️ la overlayen selv ha svart bakgrunn
+        'fixed inset-0 z-[100] transition-opacity bg-black', // ⬅️ la overlayen selv ha svart bakgrunn
         opaque ? 'opacity-100' : 'opacity-0',
         // ⬇️ La interaksjoner boble gjennom by default:
         blockInteractions ? 'pointer-events-auto' : 'pointer-events-none'
@@ -92,7 +92,7 @@ export default function LoaderOverlay({
         speedRps={speedRps}
       />
       {/* footer beholdt uendret */}
-      <div className="absolute bottom-24 left-1/2 -translate-x-1/2 z-10 pointer-events-auto">
+      <div className="absolute left-1/2 -translate-x-1/2 bottom-24 pb-[env(safe-area-inset-bottom)] z-10 pointer-events-auto">
             <p className="text-center font-mono text-gray-400 text-xs sm:text-base md:text-sm">
           Join the{' '}
           <a

@@ -31,7 +31,7 @@ html { font-family: var(--font-sans); }
       </head>
       <body>
         {/* Global loader overlay */}
-        <LoaderOverlay pattern="scan" minimumMs={2500} fadeMs={400} brandColor="white" speedRps={0.6} blockInteractions={true}/>
+        <LoaderOverlay pattern="figure8" minimumMs={2500} fadeMs={400} brandColor="white" speedRps={0.6} blockInteractions={true}/>
         {children}
         </body>
     </html>
