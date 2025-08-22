@@ -77,7 +77,7 @@ export default function LoaderOverlay({
   return (
     <div
       className={clsx(
-        'fixed inset-0 z-[100] transition-opacity',
+        'fixed inset-0 z-[100] transition-opacity bg-black', // ⬅️ la overlayen selv ha svart bakgrunn
         opaque ? 'opacity-100' : 'opacity-0',
         // ⬇️ La interaksjoner boble gjennom by default:
         blockInteractions ? 'pointer-events-auto' : 'pointer-events-none'
@@ -93,7 +93,7 @@ export default function LoaderOverlay({
       />
       {/* footer beholdt uendret */}
       <div className="absolute bottom-24 left-1/2 -translate-x-1/2 z-10 pointer-events-auto">
-            <p className="font-mono text-gray-400 text-xs sm:text-base md:text-sm ">
+            <p className="text-center font-mono text-gray-400 text-xs sm:text-base md:text-sm">
           Join the{' '}
           <a
             href="https://vercel.fyi/v0-reinvent"

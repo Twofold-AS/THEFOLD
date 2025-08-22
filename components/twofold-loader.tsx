@@ -70,7 +70,17 @@ export default function TwofoldParticleLoader({
       ctx2d.fillStyle = 'white'
       ctx2d.save()
 
-      const logoHeight = isMobile ? 60 : 120
+      const shortSide = Math.min(canvasEl.width, canvasEl.height)
+      // justér disse tallene om du vil
+      const mobilePct = 0.28  // hvor stor del av kortsiden på mobil
+      const desktopPct = 0.22 // hvor stor del av kortsiden på desktop
+
+      let logoHeight = isMobile
+      ? Math.max(96, Math.round(shortSide * mobilePct))   // minst 96px på mobil
+      : Math.round(shortSide * desktopPct)
+
+      // ikke la logoen bli for høy i høyden
+      logoHeight = Math.min(logoHeight, Math.round(canvasEl.height * 0.6))
       const scale = logoHeight / TWOFOLD_LOGO_VIEWBOX.height
       const logoWidth = TWOFOLD_LOGO_VIEWBOX.width * scale
 
@@ -166,13 +176,13 @@ const B = height * 0.4
   const tri = (x: number) => 2 * Math.abs(((x % 1) + 1) % 1 - 0.5)
 
   // Tweaks (juster tallene under):
-  const speedMul = 0.30     // < 1 => tregere scanning (0.45 = 45% av speedRps)
-  const widthMul = 0.7      // < 1 => smalere skan (60% av A)
+  const speedMul = 1.2     // < 1 => tregere scanning (0.45 = 45% av speedRps)
+  const widthMul = 1      // < 1 => smalere skan (60% av A)
   const jitterAmpMul = 0.15 // < 0.15 => mindre vertikal “vibrering”
   const jitterFreqMul = 0.1 // < 1 => saktere vertikal “vibrering”
 
   const scanW = A * widthMul
-  const u = tri(t * speedRps * speedMul)
+  const u = t * speedRps * speedMul
 
   pointerX = cx - scanW / 2 + u * scanW
   pointerY = cy + Math.sin(t * 2 * Math.PI * speedRps * jitterFreqMul) * (B * jitterAmpMul)
