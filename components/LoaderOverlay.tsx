@@ -77,7 +77,7 @@ export default function LoaderOverlay({
   return (
     <div
       className={clsx(
-        'fixed inset-0 z-[100] transition-opacity bg-black', // ⬅️ la overlayen selv ha svart bakgrunn
+        'fixed inset-0 z-[100] transition-opacity bg-black h-screen', // ⬅️ la overlayen selv ha svart bakgrunn
         opaque ? 'opacity-100' : 'opacity-0',
         // ⬇️ La interaksjoner boble gjennom by default:
         blockInteractions ? 'pointer-events-auto' : 'pointer-events-none'

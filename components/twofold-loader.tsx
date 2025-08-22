@@ -72,8 +72,8 @@ export default function TwofoldParticleLoader({
 
       const shortSide = Math.min(canvasEl.width, canvasEl.height)
       // justér disse tallene om du vil
-      const mobilePct = 0.28  // hvor stor del av kortsiden på mobil
-      const desktopPct = 0.22 // hvor stor del av kortsiden på desktop
+      const mobilePct = 0.1  // hvor stor del av kortsiden på mobil
+      const desktopPct = 0.12 // hvor stor del av kortsiden på desktop
 
       let logoHeight = isMobile
       ? Math.max(96, Math.round(shortSide * mobilePct))   // minst 96px på mobil
@@ -146,28 +146,28 @@ export default function TwofoldParticleLoader({
       ctx2d.fillStyle = 'black'
       ctx2d.fillRect(0, 0, canvasEl.width, canvasEl.height)
 
-let pointerX = mousePositionRef.current.x
-let pointerY = mousePositionRef.current.y
+    let pointerX = mousePositionRef.current.x
+    let pointerY = mousePositionRef.current.y
 
-if (simulateRef.current) {
-const t = (performance.now() - simStartRef.current) / 1000
-const { width, height } = logoDimsRef.current
+    if (simulateRef.current) {
+    const t = (performance.now() - simStartRef.current) / 1000
+    const { width, height } = logoDimsRef.current
 
-// midtpunkt for animasjonen
-let cx = centerRef.current.x
-let cy = centerRef.current.y
+    // midtpunkt for animasjonen
+    let cx = centerRef.current.x
+    let cy = centerRef.current.y
 
-// ⬇️ flytt "pointer-midtpunktet" nedover:
-// bruk én av disse:
-// 1) fast piksel-offset:
-const offsetYpx = 0   // f.eks. 80px ned
-// 2) relativt til logoens høyde:
-const offsetYrel = height * 0.25 // 25% av logo-høyden
+    // ⬇️ flytt "pointer-midtpunktet" nedover:
+    // bruk én av disse:
+    // 1) fast piksel-offset:
+    const offsetYpx = 90   // f.eks. 80px ned
+    // 2) relativt til logoens høyde:
+    const offsetYrel = height * 0.25 // 25% av logo-høyden
 
-cy += offsetYpx // eller: cy += offsetYrel
+    cy += offsetYpx // eller: cy += offsetYrel
 
-const A = width
-const B = height * 0.4
+    const A = width
+    const B = height * 0.4
 
 
   switch (pattern) {
